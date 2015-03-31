@@ -1,5 +1,8 @@
 #ifndef ONMOVE200_HEADER_FILE
 	#define ONMOVE200_HEADER_FILE
+	
+	#include <stdint.h>
+	
 	typedef struct {
 	//all numbers are little endian
 	//field sizes for all "unknown*" are guesses
@@ -27,10 +30,13 @@
 	uint8_t unknown4; // no idea at all
 	uint8_t unknown5; // always 0 in my samples
 	uint8_t unknown6; // no idea at all
-	uint64_t unknown7; // always 0 in my samples -- same definition for the next 4 fields :)
-	uint32_t unknown8;
+	uint16_t unknown7;
+	uint16_t unknown8;
 	uint16_t unknown9;
-	uint8_t unknown10;
+	uint16_t unknown10;
+	uint16_t unknown11;
+	uint16_t unknown12;
+	uint16_t unknown13;
 	
 	//0x26 here
 	uint8_t fileNumber1; //assigned sequentially
@@ -45,7 +51,10 @@
 	uint16_t targetSpeedMaximum;
 	
 	//0x32 here, suspected padding again
-	uint64_t unknown11;
+	uint16_t unknown14;
+	uint16_t unknown15;
+	uint16_t unknown16;
+	uint16_t unknown17;
 	uint8_t fileNumber2; /** should equal "fileNumber1" */
 	uint8_t magicMarker2; /** must be 0xF0 */
 	//End of file
@@ -53,5 +62,22 @@
 	//phew!
 	
 	} OMHFile;
+	
+	
+	/** Verify some assumptions intrinsic to the format:
+	 * returns 1|2 if first|second magic check fails,
+	 *         10 if the two copies of the sequential number differ */
+	 int isRealisticallyOMH(OMHFile *header);
+	
+	/** Returns distance walked. */
+	inline unsigned int getDistanceMeters(OMHFile *header);
+	inline float getDistanceKilometers(OMHFile *header);
+	
+	/** Returns average speed. */
+	inline float getSpeedMetersPerSecond(OMHFile *header);
+	inline float getSpeedKilometersPerHour(OMHFile *header);
+	
+	/** Returns energy consumed */
+	inline unsigned int getKilocaloriesBurned(OMHFile *header);
 #endif
 	
