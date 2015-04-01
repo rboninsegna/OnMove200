@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "OM200HeaderFile.h"
+#include <time.h>
+#include "featureOmhParser.h"
 
 int main(int argc, char **argv)
 {
@@ -51,8 +52,23 @@ int main(int argc, char **argv)
 	
 	printf("Data file %s:\n",argv[1]);
 	printf(" File number: %u\n", header.fileNumber2);
-	printf(" Activity started on: 20%02u-%02u-%02u, %02u:%02u:%02u\n", header.year, header.month, header.day, header.hour, header.minute, header.second); //"%02u" = unsigned int, add zeroes to 2 digits
-	printf(" Duration:  %02u:%02u:%02u (%u s)\n", header.duration/3600, header.duration/60, header.duration%60, header.duration);
+	
+	//Start time decoding and printing
+	struct tm startTime_b = getStartTime(&header);
+	#define TIME_STRING_START_LENGTH 21
+	char* startTime = malloc(sizeof(char) * (TIME_STRING_START_LENGTH+1) );
+	strftime(startTime, TIME_STRING_START_LENGTH, "%F %T", &startTime_b);
+	printf(" Activity started on: %s\n", startTime);
+	free(startTime);
+	
+	//Run time decoding and printing
+	struct tm duration_b = getRunTime(&header);
+	#define TIME_STRING_RUN_LENGTH 14
+	char* duration = malloc(sizeof(char) * (TIME_STRING_RUN_LENGTH+1) );
+	strftime(duration, TIME_STRING_RUN_LENGTH, "%jd %T", &duration_b);
+	printf(" Duration:  %s\n", duration);
+	free(duration);
+	
 	printf(" Distance:  %.2f km (%u m)\n", getDistanceKilometers(&header), getDistanceMeters(&header) );
 	printf(" Speed:     %.2f km/h (approx. %.4f m/s)\n", getSpeedKilometersPerHour(&header), getSpeedMetersPerSecond(&header) );
 	printf(" Energy:    %u kcal\n", getKilocaloriesBurned(&header));
