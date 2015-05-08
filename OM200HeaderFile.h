@@ -62,7 +62,44 @@
 	
 	} OMHFile;
 	
+
+
+
+
+	/** Verify some assumptions intrinsic to the format:
+	 * returns 1|2 if first|second magic check fails,
+	 *         6|7 if the copies of the sequential number differ */
+	int isRealisticallyOMH(OMHFile *header);
 	
+	/** Returns booleanly whether GPS data was recorded */
+	int wasGpsEnabled(OMHFile *header);
+
+	/** Returns distance walked. */
+	inline unsigned int getDistanceMeters(OMHFile *header);
+	inline float getDistanceKilometers(OMHFile *header);
+	
+	/** Returns average speed. */
+	inline float getSpeedKilometersPerHour(OMHFile *header);
+	inline float getMaxSpeedKilometersPerHour(OMHFile *header);
+	
+	/** Returns energy consumed */
+	inline unsigned int getKilocaloriesBurned(OMHFile *header);	
+	
+	/** Returns start time */
+	inline unsigned int getYear(OMHFile *header);
+	inline unsigned int getMonth(OMHFile *header);
+	inline unsigned int getDay(OMHFile *header);
+	inline unsigned int getHour(OMHFile *header);
+	inline unsigned int getMinute(OMHFile *header);
+
+	/** Returns activity duration */
+	inline unsigned long getDurationSeconds(OMHFile *header);
+
+	/** Returns average heart rate */
+	inline unsigned int getHeartRate(OMHFile *header);
+	/** Returns maximum heart rate */
+	inline unsigned int getMaxHeartRate(OMHFile *header);
+
 
 #endif
 	
