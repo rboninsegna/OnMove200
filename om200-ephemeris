@@ -1,0 +1,3 @@
+#!/bin/sh
+wget https://s3-eu-west-1.amazonaws.com/ephemeris/epo.7 >/dev/null && echo "File epo.7 is ready"
+
