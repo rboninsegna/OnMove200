@@ -3,7 +3,8 @@
 int isRealisticallyOMH(OMHFile *header){
 	if (header->magicMarker1 != 0xFA) return 1;
 	if (header->magicMarker2 != 0xF0) return 2;
-	if (header->fileNumber1 != header->fileNumber2) return 10;
+	if (header->fileNumber1 != header->fileNumber2) return 6;
+	if (header->fileNumber1 != header->fileNumber3) return 7;
 	return 0;
 }
 inline unsigned int getDistanceMeters(OMHFile *header){

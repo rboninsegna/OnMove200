@@ -7,7 +7,7 @@
 		
 	/** Verify some assumptions intrinsic to the format:
 	 * returns 1|2 if first|second magic check fails,
-	 *         10 if the two copies of the sequential number differ */
+	 *         6|7 if the copies of the sequential number differ */
 	 int isRealisticallyOMH(OMHFile *header);
 	
 	/** Returns distance walked. */
